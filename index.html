@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Underground Wear</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: black;
+      color: gainsboro;
+      min-height: 100vh;
+    }
+    header {
+      background-color: black;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.8);
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 3px;
+      font-size: 1.8rem;
+      color: lime;
+    }
+    nav button {
+      background: transparent;
+      border: 1px solid lime;
+      color: lime;
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    nav button:hover {
+      background-color: lime;
+      color: black;
+      transform: scale(1.05);
+    }
+    main {
+      padding: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    section {
+      display: none;
+      margin-top: 2rem;
+    }
+    section.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    .product-card {
+      background-color: black;
+      padding: 1.5rem;
+      border-radius: 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 15px rgba(0,255,0,0.1);
+      border: 1px solid transparent;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      border: 1px solid lime;
+      box-shadow: 0 0 20px rgba(0,255,0,0.3);
+    }
+    .product-card img {
+      max-width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .product-card h3 {
+      margin-bottom: 0.5rem;
+      color: lime;
+      font-size: 1.2rem;
+    }
+    .product-card p {
+      margin-bottom: 1rem;
+      font-weight: bold;
+    }
+    .size-buttons button {
+      margin: 0 5px;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid lime;
+      border-radius: 50%;
+      background: transparent;
+      color: lime;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .size-buttons button.active {
+      background-color: lime;
+      color: black;
+    }
+    .product-card button {
+      margin-top: 0.5rem;
+      background: none;
+      border: 1px solid lime;
+      color: lime;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+    .product-card button:hover {
+      background-color: lime;
+      color: black;
+    }
+    .timeline {
+      border-left: 3px solid lime;
+      padding-left: 2rem;
+      margin-top: 2rem;
+    }
+    .timeline-event {
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+    }
+    #cart-list {
+      list-style: none;
+      padding: 0;
+    }
+    form input, form button, form textarea {
+      display: block;
+      margin: 0.8rem 0;
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 5px;
+      border: 1px solid lime;
+    }
+    form input, form textarea {
+      background: #222;
+      color: gainsboro;
+    }
+    form button {
+      background-color: lime;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      border: none;
+    }
+    form button:hover {
+      background-color: limegreen;
+    }
+    #login-status {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Uainderground</h1>
+    <h1>🧀</h1>
+    <nav>
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('products')">Produtos</button>
+      <button onclick="showSection('timeline')">Timeline</button>
+      <button onclick="showSection('cart')">Carrinho(<span id="cart-count">0</span>)</button>
+      <button onclick="showSection('login')">Login</button>
+      <button onclick="showSection('contact')">Contato</button>
+    </nav>
+  </header>
+  <main>
+    <section id="home" class="active">
+      <h2>Bem-vindo ao estilo do street uai!</h2>
+      <p>Descubra a coleção mais jogada que tem em Belory Hills</p>
+    </section>
+    <section id="products">
+      <h2>Produtos</h2>
+      <div id="product-list" class="grid"></div>
+    </section>
+    <section id="timeline">
+      <h2>Timeline</h2>
+      <div class="timeline">
+        <div class="timeline-event">2020 - Fundamos a marca nas ruas de BH</div>
+        <div class="timeline-event">2021 - Primeira coleção: "Sombras Urbanas"</div>
+        <div class="timeline-event">2023 - Parceria com artistas independentes</div>
+        <div class="timeline-event">2025 - Lançamento da coleção "Submundo"</div>
+      </div>
+    </section>
+    <section id="cart">
+      <h2>Seu Carrinho 🛒</h2>
+      <ul id="cart-list"></ul>
+      <p id="empty-cart-msg">Seu carrinho está vazio.</p>
+      <button onclick="clearCart()" style="margin-top: 1rem;">Limpar Carrinho</button>
+    </section>
+    <section id="login">
+      <h2>Login</h2>
+      <form id="login-form" onsubmit="login(event)">
+        <input type="text" id="username" placeholder="Usuário" required>
+        <input type="password" id="password" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-status"></p>
+    </section>
+    <section id="contact">
+      <h2>Fale Conosco 📞</h2>
+      <p>Email: uainderground@gmail.com</p>
+      <p>Telefone: (31) 99412-921</p>
+      <form onsubmit="event.preventDefault(); alert('Mensagem enviada!')">
+        <input type="text" placeholder="Seu nome" required>
+        <input type="email" placeholder="Seu e-mail" required>
+        <textarea placeholder="Sua mensagem" rows="5" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+  </main>
+  <script>
+    const products = [
+      { id: 1, name: 'Camiseta Skull', price: 120, image: 'https://i.ibb.co/h1wxpHV8/OIG1.jpg' },
+      { id: 2, name: 'Jaqueta Cyberpunk', price: 350, image: 'https://i.ibb.co/fVh1M6YM/873ab6a4-9c23-4c91-b02f-c56cd38d4dab.jpg' },
+      { id: 3, name: 'Moletom Darkwear', price: 220, image: 'https://cdn.awsli.com.br/2500x2500/2571/2571134/produto/280049675/hoodie-black-back-streetwear-give-up-ex8l8aje36.jpg' },
+      { id: 4, name: 'Touca Street', price: 90, image: 'https://i.ibb.co/PKsRNfY/6-Sem-T-tulo-20250505132256.png' }
+    ];
+
+    let cart = [];
+    let likedProducts = [];
+    let selectedSizes = {};
+
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function selectSize(productId, size) {
+      selectedSizes[productId] = size;
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const list = document.getElementById('product-list');
+      list.innerHTML = '';
+      products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>R$ ${product.price},00</p>
+          <div class="size-buttons">
+            ${['P','M','G'].map(s => `<button onclick="selectSize(${product.id}, '${s}')" class="${selectedSizes[product.id] === s ? 'active' : ''}">${s}</button>`).join('')}
+          </div>
+          <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+          <button onclick="likeProduct(${product.id})">
+            ${likedProducts.includes(product.id) ? '💚 Curtido' : 'Curtir'}
+          </button>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const size = selectedSizes[productId] || 'M';
+      cart.push({ ...product, size });
+      updateCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      updateCart();
+    }
+
+    function likeProduct(productId) {
+      if (likedProducts.includes(productId)) {
+        likedProducts = likedProducts.filter(id => id !== productId);
+      } else {
+        likedProducts.push(productId);
+      }
+      renderProducts();
+    }
+
+    function updateCart() {
+      const list = document.getElementById('cart-list');
+      list.innerHTML = '';
+      if (cart.length === 0) {
+        document.getElementById('empty-cart-msg').style.display = 'block';
+      } else {
+        document.getElementById('empty-cart-msg').style.display = 'none';
+        cart.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = `${item.name} (Tamanho ${item.size}) - R$ ${item.price},00`;
+          list.appendChild(li);
+        });
+      }
+      document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    function login(event) {
+      event.preventDefault();
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if (user === "admin" && pass === "1234") {
+        localStorage.setItem("loggedIn", "true");
+        updateLoginStatus(true);
+      } else {
+        document.getElementById('login-status').textContent = "Usuário ou senha incorretos.";
+        document.getElementById('login-status').style.color = "red";
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      updateLoginStatus(false);
+    }
+
+    function updateLoginStatus(loggedIn) {
+      const loginStatus = document.getElementById('login-status');
+      if (loggedIn) {
+        loginStatus.innerHTML = 'Login realizado com sucesso! <br><button onclick="logout()">Logout</button>';
+        loginStatus.style.color = "lime";
+      } else {
+        loginStatus.textContent = "";
+        document.getElementById('login-form').reset();
+      }
+    }
+
+    window.onload = function () {
+      renderProducts();
+      const savedLogin = localStorage.getItem("loggedIn");
+      if (savedLogin === "true") {
+        updateLoginStatus(true);
+      }
+    };
+  </script>
+</body>
+</html>
