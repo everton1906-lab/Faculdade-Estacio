@@ -165,13 +165,23 @@
       margin-top: 1rem;
       text-align: center;
       font-weight: bold;
+      color: lightgray;
+    }
+    .logout-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .logout-button img {
+      width: 24px;
+      height: 24px;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Uainderground</h1>
-    <h1>🧀</h1>
+    <h1>Underground Wear</h1>
     <nav>
       <button onclick="showSection('home')">Home</button>
       <button onclick="showSection('products')">Produtos</button>
@@ -183,7 +193,7 @@
   </header>
   <main>
     <section id="home" class="active">
-      <h2>Bem-vindo ao estilo do street uai!</h2>
+      <h2>Bem-vindo ao estilo do street </h2>
       <p>Descubra a coleção mais jogada que tem em Belory Hills</p>
     </section>
     <section id="products">
@@ -212,7 +222,7 @@
         <input type="password" id="password" placeholder="Senha" required>
         <button type="submit">Entrar</button>
       </form>
-      <p id="login-status"></p>
+      <div id="login-status"></div>
     </section>
     <section id="contact">
       <h2>Fale Conosco 📞</h2>
@@ -328,8 +338,13 @@
     function updateLoginStatus(loggedIn) {
       const loginStatus = document.getElementById('login-status');
       if (loggedIn) {
-        loginStatus.innerHTML = 'Login realizado com sucesso! <br><button onclick="logout()">Logout</button>';
-        loginStatus.style.color = "lime";
+        loginStatus.innerHTML = `
+          Login realizado com sucesso!
+          <br>
+          <button onclick="logout()" class="logout-button">
+            <img src="img/triangulo.png" alt="Logout">
+          </button>
+        `;
       } else {
         loginStatus.textContent = "";
         document.getElementById('login-form').reset();
